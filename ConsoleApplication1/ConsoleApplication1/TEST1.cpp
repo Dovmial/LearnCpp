@@ -3,6 +3,6 @@ using std::cout;
 
 int main()
 {
-	cout << "Welcome to sm!\n";
+	cout << "Welcome to smd1!\n";
 	return 0;
 }
