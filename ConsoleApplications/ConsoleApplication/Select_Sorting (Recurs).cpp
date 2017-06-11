@@ -2,6 +2,7 @@
 using std::cout;
 using std::endl;
 const int ArrSize = 12;
+
 void selectionSort(int[], int);
 int main()
 {
@@ -36,6 +37,6 @@ void selectionSort(int arr2[], int arrSz)
 		arr2[ArrSize - arrSz] = arr2[y];
 		arr2[y] = min;
 	}
-	if (arrSz!=1)
+	if (arrSz != 1)
 		selectionSort(arr2, arrSz - 1);
 }
