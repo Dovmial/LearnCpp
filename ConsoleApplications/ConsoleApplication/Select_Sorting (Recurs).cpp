@@ -1,34 +1,35 @@
-#include<iostream>
+п»ї#include<iostream>
 using std::cout;
 using std::endl;
+using std::cin;
 #include<iomanip>
 using std::setw;
 
-//const int ArrSize = 12; без указателей
+//const int ArrSize = 12; Р±РµР· СѓРєР°Р·Р°С‚РµР»РµР№
 //void selectionSort(int[], int);
 //int main()
 //{
-//	//тестовый массив
+//	//С‚РµСЃС‚РѕРІС‹Р№ РјР°СЃСЃРёРІ
 //	int arr1[ArrSize] = { 12,13,3,4,0,123,8,9,1,26,6 };
-//	//вывод на печать массива
+//	//РІС‹РІРѕРґ РЅР° РїРµС‡Р°С‚СЊ РјР°СЃСЃРёРІР°
 //	for (int i = 0; i < ArrSize; i++)
 //		cout << arr1[i] << " ";
 //	cout << endl << "After Sorting:\n";
-//	selectionSort(arr1, ArrSize);     //сортировка рекурсивная выборкой
-//	//печать массива после сортировки
+//	selectionSort(arr1, ArrSize);     //СЃРѕСЂС‚РёСЂРѕРІРєР° СЂРµРєСѓСЂСЃРёРІРЅР°СЏ РІС‹Р±РѕСЂРєРѕР№
+//	//РїРµС‡Р°С‚СЊ РјР°СЃСЃРёРІР° РїРѕСЃР»Рµ СЃРѕСЂС‚РёСЂРѕРІРєРё
 //	for (int i = 0; i < ArrSize; i++)
 //		cout << arr1[i] << " ";
 //	cout << endl;
 //	return 0;
 //}
-////метод сортировки
+////РјРµС‚РѕРґ СЃРѕСЂС‚РёСЂРѕРІРєРё
 //void selectionSort(int arr2[], int arrSz)
 //{
 //	int min; 
-//	int y; //индекс минимального значения
+//	int y; //РёРЅРґРµРєСЃ РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 //	min = arr2[ArrSize - arrSz];
 //	y = ArrSize - arrSz;
-//	//поиск минимального значения в массиве и его местоположения
+//	//РїРѕРёСЃРє РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РІ РјР°СЃСЃРёРІРµ Рё РµРіРѕ РјРµСЃС‚РѕРїРѕР»РѕР¶РµРЅРёСЏ
 //	for (int i = ArrSize - arrSz + 1; i < ArrSize; i++)
 //	{
 //		if (min > arr2[i])
@@ -37,23 +38,22 @@ using std::setw;
 //			y = i;
 //		}
 //	}
-//	//постановка минимального значения на свое место(обмен местами)
+//	//РїРѕСЃС‚Р°РЅРѕРІРєР° РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ РЅР° СЃРІРѕРµ РјРµСЃС‚Рѕ(РѕР±РјРµРЅ РјРµСЃС‚Р°РјРё)
 //	if (arr2[ArrSize - arrSz] != arr2[y])
 //	{
 //		min = arr2[ArrSize - arrSz];
 //		arr2[ArrSize - arrSz] = arr2[y];
 //		arr2[y] = min;
 //	}
-//	//рекурсивный вызов функции для подмассива
+//	//СЂРµРєСѓСЂСЃРёРІРЅС‹Р№ РІС‹Р·РѕРІ С„СѓРЅРєС†РёРё РґР»СЏ РїРѕРґРјР°СЃСЃРёРІР°
 //	if (arrSz != 1)   
 //		selectionSort(arr2, arrSz - 1);
 //} 
 
-//решение через указатели
+//СЂРµС€РµРЅРёРµ С‡РµСЂРµР· СѓРєР°Р·Р°С‚РµР»Рё
 
-void selectionSort(int * const, const int);
+/*void selectionSort(int * const, const int);
 void swap(int * const, int * const);
-
 int main()
 {
 	const int arraySize = 10;
@@ -61,7 +61,7 @@ int main()
 	cout << "Data items in orginal order\n";
 	for (int i = 0; i < arraySize; i++)
 		cout << setw(4) << a[i];
-	selectionSort(a, arraySize); // сортировка
+	selectionSort(a, arraySize); // СЃРѕСЂС‚РёСЂРѕРІРєР°
 	cout << "\nData items in ascending order\n";
 	for (int i = 0; i < arraySize; i++)
 		cout << setw(4) << a[i];
@@ -86,4 +86,71 @@ void swap(int * const element1Ptr, int * const element2Ptr)
 	int hold = *element1Ptr;
 	*element1Ptr = *element2Ptr;
 	*element2Ptr = hold;
+}*/
+
+//Pointer at Function
+
+void selectionSort(int[], const int, bool(*)(int, int));
+void swap(int *const, int *const);
+bool ascending(int, int);
+bool descending(int, int);
+
+int main()
+{
+	const int arraySize = 10;
+	int order;   //1 = в†‘, 2 = в†“
+	int counter;
+	int a[arraySize] = { 2,6,4,8,10,12,89,68,45,37 };
+	cout << "Enter 1 to sort in ascending order, \n"
+		<< "Enter 2 to sort int descending order: ";
+	cin >> order;
+	cout << "\nData items in original order\n";
+
+	for (counter = 0; counter < arraySize; counter++)
+		cout << setw(4) << a[counter];
+	//sorting в†‘
+	if (order == 1)
+	{
+		selectionSort(a, arraySize, ascending);
+		cout << "\nData items in ascending order\n";
+	}
+	//sorting в†“
+	else
+	{
+		selectionSort(a, arraySize, descending);
+		cout << "\nData items in descending order\n";
+	}
+	for (counter = 0; counter < arraySize; counter++)
+		cout << setw(4) << a[counter];
+	cout << endl;
+	return 0;
+}
+
+void selectionSort(int work[], const int size, bool(*compare)(int, int))
+{
+	int SmallestOrLargest;
+	for (int i = 0; i < size; i++)
+	{
+		SmallestOrLargest = i;
+		for (int index = i + 1; index < size; index++)
+			if ((*compare)(work[index], work[SmallestOrLargest]))
+				SmallestOrLargest = index;
+		swap(&work[i], &work[SmallestOrLargest]);
+	}
+}
+
+void swap(int *const element1Ptr, int * const element2Ptr)
+{
+	int hold = *element1Ptr;
+	*element1Ptr = *element2Ptr;
+	*element2Ptr = hold;
+}
+
+bool ascending(int a, int b)
+{
+	return a < b;
+}
+bool descending(int a, int b)
+{
+	return a > b;
 }
