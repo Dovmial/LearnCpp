@@ -3,6 +3,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+
 void function0(int);
 void function1(int);
 void function2(int);
