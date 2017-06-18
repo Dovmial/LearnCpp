@@ -12,12 +12,14 @@ using std::rand;
 #include<iomanip>
 using std::setw;
 
+#include<algorithm>
+
 DeckOfCards::DeckOfCards()
 {
 	for (int row = 0; row <= 3; row++)
 		for (int column = 0; column <= 12; column++)
 			deck[row][column] = 0;
-	srand(time(0));
+	srand((unsigned)time(0));
 }
 
 void DeckOfCards::shuffle()
@@ -35,56 +37,53 @@ void DeckOfCards::shuffle()
 }
 void DeckOfCards::deal()
 {
-
-	for (int card = 1; card <= 5; card++)
+	checkCombo comboPlr1, comboPlr2;
+	//player1
+	for (int card = 1; card < 10; card+=2)
 		for (int row = 0; row <= 3; row++)
 			for (int column = 0; column <= 12; column++)
 				if (deck[row][column] == card)
 				{
-					Suit[card - 1] = row; Face[card - 1] = column;
+					Suit[(card - 1)/2] = row; Face[(card - 1)/2] = column;
 					cout << setw(5) << std::right
 						<< face[column] << " of " << setw(8)
 						<< std::left << suit[row] << endl;
 				}
+	
 	for (int i = 0; i < 5; i++)
 		cout << Face[i] << " of " << Suit[i] << endl;
-	combinations(Face, Suit);
+	comboPlr1= combinations(Face, Suit);
+	//player 2
+	for (int card = 2; card <= 10; card+=2)
+		for (int row = 0; row <= 3; row++)
+			for (int column = 0; column <= 12; column++)
+				if (deck[row][column] == card)
+		{
+					Suit2[card/2-1] = row; Face2[card/2-1] = column;
+					cout << setw(5) << std::right
+						<< face[column] << " of " << setw(8)
+						<< std::left << suit[row] << endl;
+		}
+	for (int i = 0; i < 5; i++)
+		cout << Face2[i] << " of " << Suit2[i] << endl;
+	comboPlr2 =combinations(Face2, Suit2);
+	roundResult(comboPlr2, comboPlr1, Face, Face2);
 }
 
-void DeckOfCards::combinations(int face[], int suit[])
+DeckOfCards::checkCombo DeckOfCards::combinations(const int face[], const int suit[])
 {		//sorting arrays
-	int faceSorted[5];
-	//int suitSorted[5];
-	for (int i = 0; i < 5; i++)
-	{
-		faceSorted[i] = face[i];
-//		suitSorted[i] = suit[i];
-	}
-	for (int i = 4; i != 0; i--)
-		for (int j = 0; j < i; j++)
-		{
-			if (faceSorted[j] > faceSorted[j + 1])
-			{
-				int swap = faceSorted[j];
-				faceSorted[j] = faceSorted[j + 1];
-				faceSorted[j + 1] = swap;
-			}
-/*			if (suitSorted[j] > suitSorted[j + 1])
-			{
-				int swap = suitSorted[j];
-				suitSorted[j] = suitSorted[j + 1];
-				suitSorted[j + 1] = swap;
-			}*/
-		}
+	vector<int> faceSorted(face,face+5); combo = Null;
+	std::sort(faceSorted.begin(), faceSorted.end());
 	//Pointer at function? 550 стр
 	checkFlash(suit);
-	if (combo == Null)
+	if (combo == Null || combo == Flash)
 		checkStreet(faceSorted);
 	if (combo == Null)
 		checkRepeat(faceSorted);
 	showCombo();
+	return combo;
 }
-void DeckOfCards::checkFlash(int suit[])
+void DeckOfCards::checkFlash(const int suit[])
 {
 	int i = 1;
 	while (i < 5)
@@ -97,21 +96,23 @@ void DeckOfCards::checkFlash(int suit[])
 	if (i == 5)
 		combo = Flash;
 }
-void DeckOfCards::checkStreet(int face[])
+void DeckOfCards::checkStreet(vector<int>  face)
 {
-	if (face[0] <= 9)
+	if (face[0] < 9)
 	{
-		if (face[0] == 0)
+		if (face[0] == 0 && face[1] == 9)
 		{
 			int j = 1;
-			for (int i = 10; j <= 4; i++)
+			for (int i = 9; j <= 4; i++)
 			{
 				if (face[j] == i)
 					j++;
 				else
 					break;
 			}
-			if (j == 5)
+			if (combo == Flash && j == 5)
+				combo = Flash_Royal;
+			else if (j == 5)
 				combo = Street;
 		}
 		else
@@ -124,7 +125,9 @@ void DeckOfCards::checkStreet(int face[])
 				else
 					break;
 			}
-			if (i == 5)
+			if (combo == Flash && i == 5)
+				combo = Street_Flash;
+			else if (i == 5)
 				combo = Street;
 		}
 	}
@@ -135,7 +138,7 @@ void DeckOfCards::checkStreet(int face[])
 	{2,0},		  three
 	{3,0}}		  care
 	*/
-void DeckOfCards::checkRepeat(int face[])
+void DeckOfCards::checkRepeat(vector<int> face)
 {
 	int key = 0; //index of key
 	int k; // step on deck
@@ -188,12 +191,168 @@ void DeckOfCards::showCombo()
 {
 	switch (combo)
 	{
-	case Pair: {cout << "\nYou have Pair!\n"; break; }
-	case TwoPair: {cout << "\nYou have TwoPairs!\n"; break; }
-	case Three: {cout << "\nYou have Three!\n"; break; }
-	case Care: {cout << "\nYou have Care!\n"; break; }
-	case Flash: { cout << "\nYou have Flash!\n"; break; }
-	case Street: {cout << "\nYou have Street!\n"; break; }
-	default: {cout << "\nNot combinations\n"; break; }
+	case Pair: {cout << "\nYou have Pair!\n\n"; break; }
+	case TwoPair: {cout << "\nYou have TwoPairs!\n\n"; break; }
+	case Three: {cout << "\nYou have Three!\n\n"; break; }
+	case Care: {cout << "\nYou have Care!\n\n"; break; }
+	case Flash: { cout << "\nYou have Flash!\n\n"; break; }
+	case Street: {cout << "\nYou have Street!\n\n"; break; }
+	case Full_Haus: {cout << "\nYou have Full-Haus!\n\n"; break; }
+	case Street_Flash: {cout << "\nYou have Street-Flash!\n\n"; break; }
+	case Flash_Royal: {cout << "\nYou have Flash Royal!!!\n\n"; break; }
+	default: {cout << "\nNot combinations\n\n"; break; }
+	}
+}
+
+void DeckOfCards::roundResult(checkCombo comboPlayer2, checkCombo comboPlayer1, const int faceVec[], const int faceVec2[])
+{
+	if (comboPlayer2 < comboPlayer1)
+		cout << endl << "Player 1 win!\n";
+	else if (comboPlayer1 < comboPlayer2)
+		cout << endl << "Player 2 win!\n";
+	else if (comboPlayer1 == comboPlayer2)
+	{
+		vector<int>faceSorted(faceVec, faceVec + 5);
+		vector<int>faceSorted2(faceVec2, faceVec2 + 5);
+		std::sort(faceSorted.begin(), faceSorted.end());
+		std::sort(faceSorted2.begin(), faceSorted2.end());
+		if (comboPlayer1 == Null || comboPlayer1 == Flash)
+		{
+		SearchMaxCard: //goto
+			bool flag = true;
+			for (int y = 0; y < 5 && flag; y++)
+				for (int x = 4; x >= 0; x--)
+				{
+					if (faceSorted[y] != 0 && faceSorted2[y] != 0)
+					{
+						if (faceSorted[x] > faceSorted2[x])
+						{
+							cout << endl << "Player 1 win!\n"; flag = false; break;
+						}
+						else if (faceSorted[x] < faceSorted2[x])
+						{
+							cout << endl << "Player 2 win!\n"; flag = false; break;
+						}
+					}
+					else if (faceSorted[y] == 0 && faceSorted2[y] != 0)
+					{
+						cout << endl << "Player 1 win!\n"; flag = false; break;
+					}
+					else if (faceSorted2[y] == 0 && faceSorted[y] != 0)
+					{
+						cout << endl << "Player 2 win!\n"; flag = false; break;
+					}
+				}
+			if (flag == true)
+				cout << "Draw!\n";
+			cout << "Round Over\n" << endl;
+		}
+		switch (comboPlayer1)
+		{
+		case Pair:
+		case Three:
+		case Care:
+		{
+			int max1, max2;
+			for (int i = 1; i < 5; i++)
+			{
+				if (faceSorted[i - 1] == faceSorted[i])
+					max1 = faceSorted[i];
+				if (faceSorted2[i - 1] == faceSorted2[i])
+					max2 = faceSorted2[i];
+			}
+			if (max1 == 0)
+				max1 = 13;
+			if (max2 == 0)
+				max2 = 13;
+			if (max1 != max2)
+				max1 > max2 ? cout << "Player 1 win!" : cout << "Player 2 win!";
+			else
+				goto SearchMaxCard;
+			break;
+		}
+		case TwoPair:
+		
+		{
+			int max1, max2, max11, max22; //For save repeat numbers
+			for (int i = 1, j = 4; i < j; i++, j--)
+			{
+				if (faceSorted[i - 1] == faceSorted[i])
+					max1 = faceSorted[i];
+				if (faceSorted[j - 1] == faceSorted[j])
+					max11 = faceSorted[j];
+				if (faceSorted2[i - 1] == faceSorted2[i])
+					max2 = faceSorted2[i];
+				if (faceSorted2[j - 1] == faceSorted2[j])
+					max22 = faceSorted2[j];
+			}
+
+			if (max1 == 0)
+			{
+				max1 = max11;
+				max11 = 13;
+			}
+			if (max2 == 0)
+			{
+				max2 = max22;
+				max22 = 13;
+			}
+			if (max11 != max22)
+				max11 < max22 ? cout << "Player 2 win!\n" : cout << "Player 1 win!\n";
+
+			else if (max1 != max2)
+				max1 < max2 ? cout << "Player 2 win!\n " : cout << "Player 1 win!\n";
+			else 
+				goto SearchMaxCard;
+			break;
+		}/*{0,0,1,1,1}{2,2,2,4,4}*/
+		case Street:
+		{
+			int max1 = faceSorted[4];
+			int max2 = faceSorted2[4];
+
+			if (faceSorted[0] == 0 && faceSorted[1] == 9)
+				max1 = 13;
+			if (faceSorted2[0] == 0 && faceSorted2[1] == 9)
+				max2 = 13;
+			if (max1 != max2)
+				max1 > max2 ? cout << "Player 1 win!" : cout << "Player 2 win!";
+			else
+				cout << "Draw!\n";
+			break;
+		}
+		case Full_Haus:
+		{
+			int max1; int max13;
+			int max2; int max23;
+			if (faceSorted[2] == faceSorted[0]) //search Three in Full_Haus
+			{
+				faceSorted[0] == 0 ? max13 = 13 : max13 = faceSorted[0];
+				max1 = faceSorted[4];
+			}
+			else
+			{
+				max13 = faceSorted[4];
+				faceSorted[0] == 0 ? max1 = 13 : max1 = faceSorted[0];
+			}
+			if (faceSorted2[2] == faceSorted2[0]) //search Three in Full_Haus for 2player
+			{
+				faceSorted2[0] == 0 ? max23 = 13 : max23 = faceSorted2[0];
+				max2 = faceSorted2[4];
+			}
+			else
+			{
+				max23 = faceSorted2[4];
+				faceSorted2[0] == 0 ? max2 = 13 : max2 = faceSorted2[0];
+			}
+			if (max13 != max23)
+				max13 < max23 ? cout << "Player 2 win!\n" : cout << "Player 1 win!\n";
+
+			else if (max1 != max2)
+				max1 < max2 ? cout << "Player 2 win!\n " : cout << "Player 1 win!\n";
+			else
+				cout << "Draw!\n";
+		}
+		}
 	}
 }
