@@ -2,9 +2,7 @@
 using std::cout;
 using std::cin;
 using std::endl;
-
-
-void function0(int);
+/*void function0(int);
 void function1(int);
 void function2(int);
 
@@ -35,4 +33,14 @@ void function1(int b)
 void function2(int c)
 {
 	cout << "You entered " << c << " so function2 was called\n\n";
+}
+*/
+#include<vector>
+using std::vector;
+int main()
+{
+	vector<int>faceSorted{0,0,0,11,11};
+	vector<int>faceSorted2{0,0,0,11,11};
+	
+	
 }
