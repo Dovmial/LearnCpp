@@ -16,36 +16,36 @@ using std::setw;
 
 DeckOfCards::DeckOfCards()
 {
-	for (int row = 0; row <= 3; row++)
-		for (int column = 0; column <= 12; column++)
-			deck[row][column] = 0;
+	int card = 1;
+	for (int row = 0; row < 4; row++)
+		for (int column = 0; column < 13; column++)
+			deck[row][column] = card++;
 	srand((unsigned)time(0));
 }
 
 void DeckOfCards::shuffle()
 {
-	int row, column;
-	for (int card = 1; card <= 52; card++)
-	{
-		do
+	int row1, column1;
+	for (int row = 0; row < 4; row++)
+		for (int column = 0; column < 13; column++)
 		{
-			row = rand() % 4;
-			column = rand() % 13;
-		} while (deck[row][column] != 0);
-		deck[row][column] = card;
-	}
+			row1 = rand() % 4;
+			column1 = rand() % 13;
+			std::swap(deck[row][column], deck[row1][column1]);
+		}
 }
 void DeckOfCards::deal()
 {
-	checkCombo comboPlr1, comboPlr2;
+	checkCombo comboPlr1, comboPlr2; 
 	int numberPlyers = 2; //number of Players (<=10)
-	//player1
-	/*for (int card = 1; card < 10; card+=2)*/
+	bool flag1;
 	for (int card = 1; card <= 5 * numberPlyers; card++)
-		for (int row = 0; row <= 3; row++)
-			for (int column = 0; column <= 12; column++)
+	{
+		flag1 = true;//trigger for searching
+		for (int row = 0; row <= 3 && flag1; row++)
+			for (int column = 0; column <= 12 && flag1; column++)
 			{
-				if (card%numberPlyers == 1)
+				if (card % numberPlyers == 1)
 				{
 					if (deck[row][column] == card)
 					{
@@ -53,6 +53,7 @@ void DeckOfCards::deal()
 						cout << "Player:  " << setw(5) << std::right
 							<< face[column] << " of " << setw(8)
 							<< std::left << suit[row];
+						flag1 = false;
 					}
 				}
 				else
@@ -63,17 +64,23 @@ void DeckOfCards::deal()
 							<< face[column] << " of " << setw(8)
 							<< std::left << suit[row] << endl;*/
 						cout << "\tDieler:  Uknown card\n";
+						flag1 = false;
 					}
+				
 			}
+		
+	}
+	cout << endl;
 	for (int i = 0; i < 5; i++)
 		cout << Face[i] << " of " << Suit[i] << endl;
 	comboPlr1 = combinations(Face, Suit);
+	cout << endl;
 	for (int i = 0; i < 5; i++)
 		cout << Face2[i] << " of " << Suit2[i] << endl;
 	comboPlr2 = combinations(Face2, Suit2);
 	checkResult(comboPlr2, comboPlr1, Face, Face2);
+	
 }
-
 DeckOfCards::checkCombo DeckOfCards::combinations(const int face[], const int suit[])
 {		//sorting arrays
 	vector<int> faceSorted(face, face + 5); combo = Null;
@@ -195,16 +202,16 @@ void DeckOfCards::showCombo()
 {
 	switch (combo)
 	{
-	case Pair: {cout << "You have Pair!\n\n"; break; }
-	case TwoPair: {cout << "You have TwoPairs!\n\n"; break; }
-	case Three: {cout << "You have Three!\n\n"; break; }
-	case Care: {cout << "You have Care!\n\n"; break; }
-	case Flash: { cout << "You have Flash!\n\n"; break; }
-	case Street: {cout << "You have Street!\n\n"; break; }
-	case Full_Haus: {cout << "You have Full-Haus!\n\n"; break; }
-	case Street_Flash: {cout << "You have Street-Flash!\n\n"; break; }
-	case Flash_Royal: {cout << "You have Flash Royal!!!\n\n"; break; }
-	default: {cout << "Not combinations\n\n"; break; }
+	case Pair: {cout << "You have Pair!\n"; break; }
+	case TwoPair: {cout << "You have TwoPairs!\n"; break; }
+	case Three: {cout << "You have Three!\n"; break; }
+	case Care: {cout << "You have Care!\n"; break; }
+	case Flash: { cout << "You have Flash!\n"; break; }
+	case Street: {cout << "You have Street!\n"; break; }
+	case Full_Haus: {cout << "You have Full-Haus!\n"; break; }
+	case Street_Flash: {cout << "You have Street-Flash!\n"; break; }
+	case Flash_Royal: {cout << "You have Flash Royal!!!\n"; break; }
+	default: {cout << "Not combinations\n"; break; }
 	}
 }
 
@@ -249,7 +256,7 @@ void DeckOfCards::checkResult(checkCombo comboPlayer2, checkCombo comboPlayer1, 
 				}
 			if (flag == true)
 				result[0] = 1;
-			cout << "Round Over\n" << endl;
+			cout << "Round Over\n";
 		}
 		switch (comboPlayer1)
 		{
@@ -270,7 +277,7 @@ void DeckOfCards::checkResult(checkCombo comboPlayer2, checkCombo comboPlayer1, 
 			if (max2 == 0)
 				max2 = 13;
 			if (max1 != max2)
-				max1 > max2 ? result[1]=1 : result[2] = 1;
+				max1 > max2 ? result[1] = 1 : result[2] = 1;
 			else
 				goto SearchMaxCard;
 			break;
@@ -301,7 +308,7 @@ void DeckOfCards::checkResult(checkCombo comboPlayer2, checkCombo comboPlayer1, 
 				max22 = 13;
 			}
 			if (max11 != max22)
-				max11 < max22 ? result[2]=1 : result[1] = 1;
+				max11 < max22 ? result[2] = 1 : result[1] = 1;
 
 			else if (max1 != max2)
 				max1 < max2 ? result[2] = 1 : result[1] = 1;
@@ -362,9 +369,9 @@ void DeckOfCards::checkResult(checkCombo comboPlayer2, checkCombo comboPlayer1, 
 void DeckOfCards::roundResult()
 {
 	if (result[2] == 1)
-		cout << endl << "Dieler win!\n";
+		cout << "\nDieler win!\n";
 	else if (result[1] == 1)
-		cout << endl << "Player 1 win!\n";
-	else if(result[0]==1)
-		cout << "Draw!\n";
+		cout << "\nPlayer 1 win!\n";
+	else if (result[0] == 1)
+		cout << "\nDraw!\n";
 }
