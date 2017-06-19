@@ -319,9 +319,9 @@ void DeckOfCards::checkResult(checkCombo comboPlayer2, checkCombo comboPlayer1, 
 			if (faceSorted2[0] == 0 && faceSorted2[1] == 9)
 				max2 = 13;
 			if (max1 != max2)
-				max1 > max2 ? cout << "Player 1 win!" : cout << "Player 2 win!";
+				max1 > max2 ? result[1] = 1 : result[2] = 1;
 			else
-				cout << "Draw!\n";
+				result[0] = 1;
 			break;
 		}
 		case Full_Haus:
@@ -365,7 +365,6 @@ void DeckOfCards::roundResult()
 		cout << endl << "Dieler win!\n";
 	else if (result[1] == 1)
 		cout << endl << "Player 1 win!\n";
-	else
+	else if(result[0]==1)
 		cout << "Draw!\n";
 }
-
