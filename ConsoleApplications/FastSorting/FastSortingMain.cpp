@@ -23,7 +23,6 @@ int main()
 void quickSort(vector<int>&arr1, int b0, int e0)
 {
 	int b = b0; int e = e0;
-	//partition(arr1, b, e);
 	auto d = arr1[e];
 	do
 	{
@@ -43,19 +42,3 @@ void quickSort(vector<int>&arr1, int b0, int e0)
 	if (b < e0)
 		quickSort(arr1,b, e0);
 }
-//void partition( vector<int>&arr, int b, int e)
-//{
-//	auto d = arr[e];
-//	do
-//	{
-//		while (arr[b] < d)
-//			++b;
-//		while (arr[e] > d)
-//			e--;
-//		if (b <= e)
-//		{
-//			swap(arr[b], arr[e]);
-//			++b; --e;
-//		}
-//	} while (b<=e);
-//}
