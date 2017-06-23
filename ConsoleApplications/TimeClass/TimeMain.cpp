@@ -3,14 +3,15 @@ using std::cout;
 using std::endl;
 #include "Time.h"
 
+
 int main()
 {
-	Time t1;
+	Time t1(0);
 	Time t2(2);
 	Time t3(21, 34);
 	Time t4(12, 25, 42);
 	Time t5(27, 74, 99);
-
+	Time t6;
 	cout << "Constructed with:\n\nt1: all arguments defaulted\n";
 	t1.printUniversal();
 	cout << endl; t1.printStandard();
@@ -26,6 +27,8 @@ int main()
 	cout << "\n\nt5: all invalid values specified\n";
 	t5.printUniversal();
 	cout << endl; t5.printStandard();
+	cout << endl;
+	cout << "\n\nt6: Current Time: "; t6.printStandard();
 	cout << endl;
 	return 0;
 }

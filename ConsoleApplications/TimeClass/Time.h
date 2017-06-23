@@ -3,7 +3,8 @@
 class Time
 {
 public:
-	Time(int = 0, int = 0, int = 0);
+	Time(int, int = 0, int = 0);
+	Time();
 	void setTime(int, int, int);
 	void setHour(int);
 	void setMinute(int);
@@ -14,6 +15,7 @@ public:
 	int getSecond();
 	void printUniversal();
 	void printStandard();
+
 private:
 	int hour;
 	int minute;

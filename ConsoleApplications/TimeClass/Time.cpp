@@ -4,12 +4,17 @@ using std::cout;
 #include <iomanip>
 using std::setfill;
 using std::setw;
+#include<ctime>
+using std::time;
 
 Time::Time(int hr, int min, int sec)
 {
 	setTime(hr, min, sec);
 }
-
+Time::Time()
+{
+	setTime((time(0) % 86400) /3600, (time(0) % 86400) %3600/60, time(0)%60);
+}
 void Time::setTime(int h, int m, int s)
 {
 	setHour(h);
