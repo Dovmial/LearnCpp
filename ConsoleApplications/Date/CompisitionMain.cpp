@@ -5,13 +5,22 @@ using std::endl;
 
 int main()
 {
-	Date birth(7, 24, 1949);
-	Date hire(3, 12, 1988);
-	Employee manager("Bob", "Blue", birth, hire);
-	cout << endl;
-	manager.print();
-	cout << "\Test Date constructor with invalid values:\n";
-	Date lastDayOff(14, 35, 1994);
-	cout << endl;
+	cout << "Number of employees before creation of any objects is "
+		<< Employee::getCount << endl;
+	Employee *e1Ptr = new Employee ("Susan", "Baker");
+	Employee * e2Ptr = new Employee ("Robert", "Jones");
+	cout << "Number of employees after objects are instantiated is "
+		<< e1Ptr->getCount();
+	cout << "\n\nEmployee 1: "
+		<< e1Ptr->getFirstName() << ' ' << e1Ptr->getLastName()
+		<< "\nEmployee 2: " << e2Ptr->getFirstName()
+		<< ' ' << e2Ptr->getLastName() << "\n\n";
+
+	delete e1Ptr;
+	e1Ptr = 0;
+	delete e2Ptr;
+	e2Ptr = 0;
+	cout << "Number of employees after objects are deleted is "
+		<< Employee::getCount << endl;
 	return 0;
 }

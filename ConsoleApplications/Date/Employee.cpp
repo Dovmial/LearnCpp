@@ -8,36 +8,37 @@ using std::endl;
 using std::strlen;
 using std::strcpy;
 
-Employee::Employee(const char*const first, const char*const last,
-	const Date &dateOfBirth, const Date &dateOfHire)
-	: birthDate(dateOfBirth),
-	hireDate(dateOfHire)
+int Employee::count = 0;
+int Employee::getCount()
 {
-	int length = strlen(first);
-	length = (length < 25 ? length : 24);
-	strncpy(firstName, first, length);
-	firstName[length] = '\0';
-
-	length = strlen(last);
-	length = (length < 25 ? length : 24);
-	strncpy(lastName, last, length);
-	lastName[length] = '\0';
-
+	return count;
+}
+Employee::Employee(const char*const first, const char*const last)
+{
+	firstName = new char[strlen(first) + 1];
+	strcpy(firstName, first);
+	lastName = new char[strlen(last) + 1];
+	strcpy(lastName, last);
+	count++;
 	cout << "Employee object constructor: "
 		<< firstName << ' ' << lastName << endl;
 }
 
-void Employee::print()const
-{
-	cout << lastName << ", " << firstName << " Hired: ";
-	hireDate.print();
-	cout << " Birthday: ";
-	birthDate.print();
-	cout << endl;
-}
 
 Employee::~Employee()
 {
-	cout << "Employee object destructor: "
-		<< lastName << ", " << firstName << endl;
+	cout << "Employee called for "
+		<< firstName << ", " <<lastName  << endl;
+	delete[] firstName;
+	delete[] lastName;
+	count--;
+}
+const char *Employee::getFirstName()const
+{
+	return firstName;
+}
+
+const char *Employee::getLastName()const
+{
+	return lastName;
 }

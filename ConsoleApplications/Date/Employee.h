@@ -5,14 +5,16 @@
 class Employee
 {
 public:
-	Employee(const char* const, const char *const,
-		const Date &, const Date &);
-	void print()const;
+	Employee(const char* const, const char *const);
 	~Employee();
+	const char *getFirstName()const;
+	const char *getLastName()const;
+	static int getCount();
 private:
-	char firstName[25];
-	char lastName[25];
+	char *firstName;
+	char *lastName;
 	const Date birthDate; //композиция: элемент объект
 	const Date hireDate;
+	static int count;
 };
 #endif // !EMPLOYEE_H
