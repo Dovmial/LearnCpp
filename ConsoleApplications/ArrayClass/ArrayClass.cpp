@@ -103,5 +103,3 @@ ostream &operator<<(ostream &output, const Array &a)
 		output << endl;
 	return output; //cout << x << y;
 }
-
-

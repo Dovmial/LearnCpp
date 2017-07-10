@@ -1,12 +1,39 @@
 #include "ComplexClass.h"
+#include <iostream>
+using std::cout;
+using std::endl;
+
 int main()
 {
-	Complex z1(15, 26);
-	Complex z2(11, 35);
-	Complex z3;
-	z3 = z3.Add(z1, z2);
-	Complex z4 = z4.Substruct(z1, z2);
-	z3.showComplex();
-	z4.showComplex();
+	Complex x;
+	Complex y(2.0, 3.0);
+	Complex z(-1.0, 1.0);
+
+	cout << "x: "<<x;
+	cout << "\ny: "<<y;
+	cout << "\nx: "<<z;
+	
+
+	x = y + z;
+	cout << "\n\nx = y + z: " << endl;
+	cout << x << " = " << y << " + " << z << endl;
+	
+	x = y - z;
+	cout << "\n\nx = y - z: " << endl;
+	cout << x << " = " << y << " - " << z << endl;
+	cout << endl;
+
+	x = y*z;
+	cout << "\n\nx = y * z: " << endl;
+	cout << x << " = " << y << " * " << z << endl;
+	cout << "x = y?  ";
+	x == y ? cout << 'y' : cout << 'n';
+	cout << endl;
+	x = y;
+	cout << "x = y?  ";
+	x == y ? cout << 'y' : cout << 'n';
+	cout << "\nx != y?  ";
+	x != y ? cout << 'y' : cout << 'n';
+	cout << endl;
 	return 0;
 }

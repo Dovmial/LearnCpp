@@ -1,26 +1,33 @@
 #include"ComplexClass.h"
 #include<iostream>
+using std::cout;
 
-Complex::Complex(double real, double imagin)
+Complex::Complex(double realPart, double imaginaryPart)
+	:real(realPart), imaginary(imaginaryPart)
+{}
+
+Complex Complex::operator+(const Complex &operand2)const
 {
-	realPart = real;
-	imaginaryPart = imagin;
+	return Complex(real + operand2.real,
+		imaginary + operand2.imaginary);
 }
-Complex Complex::Add(Complex c1, Complex c2)
+Complex Complex::operator-(const Complex &operand2)const
 {
-	Complex c3;
-	c3.realPart = c1.realPart + c2.realPart;
-	c3.imaginaryPart = c1.imaginaryPart + c2.imaginaryPart;
-	return c3;
+	return Complex(real - operand2.real,
+		imaginary - operand2.imaginary);
 }
-Complex Complex::Substruct(Complex c1, Complex c2)
+Complex Complex::operator*(const Complex &operand2)const
 {
-	Complex c3;
-	c3.realPart = c1.realPart - c2.realPart;
-	c3.imaginaryPart = c1.imaginaryPart - c2.imaginaryPart;
-	return c3;
+	return Complex(real*operand2.real - imaginary*operand2.imaginary,
+		real*operand2.imaginary + operand2.real*imaginary);
 }
-void Complex::showComplex()
+bool Complex::operator==(const Complex &operand2)const
 {
-	std::cout << '(' << realPart << ", " << imaginaryPart << ')' << std::endl;
+	return real == operand2.real && imaginary == operand2.imaginary;
+}
+//display
+ostream &operator<<(ostream &output,const Complex &c)
+{
+	output << '(' << c.real << ", " << c.imaginary << ')';
+	return output;
 }
