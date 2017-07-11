@@ -1,5 +1,5 @@
 #include <iostream>
-#include "ComissionEmployee.h"
+#include "BasePlusCommEmpl.h"
 #include <iomanip>
 using std::endl;
 using std::cout;
@@ -8,8 +8,8 @@ using std::setprecision;
 
 int main()
 {
-	CommissionEmployee employee(
-		"Sue", "Jones", "222-22-2222", 10000, .06);
+	BasePlusCommEmpl employee(
+		"Sue", "Jones", "333-33-3333", 5000, .04,300);
 	cout << fixed << setprecision(2);
 
 	cout << "Employee information obtained by get functions:\n"
@@ -18,14 +18,14 @@ int main()
 		<< "\nSocial security number is "
 		<< employee.getSocialSecurityNumber()
 		<< "\nGross sales is " << employee.getGrossSales()
-		<< "\nCommission rate is " << employee.getCommissionRate() << endl;
+		<< "\nCommission rate is " << employee.getCommissionRate()
+		<<"\nBase salary is "<<employee.getBaseSalary()<< endl;
 
-	employee.setGrossSales(8000);
-	employee.setCommissionRate(.1);
+	employee.setBaseSalary(1000);
 
 	cout << "\nUpdated employee information "
 		<< "output by print function: \n" << endl;
 	employee.print();
-	cout << "\n\nEmployee's earings: $" << employee.earings() << endl;
+	cout << "\n\nEmployee's earings: $" << employee.earnings() << endl;
 	return 0;
 }

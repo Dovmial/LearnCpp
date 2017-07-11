@@ -1,15 +1,13 @@
 #include <iostream>
-#include "ComissionEmployee.h"
+#include "CommissionEmployee.h"
 
 using std::cout;
 
 CommissionEmployee::CommissionEmployee(
 	const string &first, const string &last,
 	const string &ssn, double sales, double rate)
+	:firstName(first),lastName(last),socialSecurityNumber(ssn)
 {
-	firstName = first;
-	lastName = last;
-	socialSecurityNumber = ssn;
 	setGrossSales(sales);
 	setCommissionRate(rate);
 }
@@ -54,14 +52,14 @@ double CommissionEmployee::getCommissionRate()const
 {
 	return commissionRate;
 }
-double CommissionEmployee::earings()const
+double CommissionEmployee::earnings()const
 {
-	return commissionRate*grossSales;
+	return getCommissionRate()*getGrossSales();
 }
 void CommissionEmployee::print()const
 {
-	cout << "commission employee: " << firstName << ' ' << lastName
-		<< "\nsocial security number: " << socialSecurityNumber
-		<< "\ngross sales: " << grossSales
-		<< "\ncommission rate: " << commissionRate;
+	cout << "commission employee: " << getFirstName() << ' ' << getLastName()
+		<< "\nsocial security number: " << getSocialSecurityNumber()
+		<< "\ngross sales: " << getGrossSales()
+		<< "\ncommission rate: " << getCommissionRate();
 }
