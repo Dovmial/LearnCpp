@@ -13,8 +13,8 @@ public:
 
 	void setBaseSalary(double);
 	double getBaseSalary()const;
-	double earnings()const;
-	void print()const;
+	virtual double earnings()const;
+	virtual void print()const;
 private:
 	double baseSalary;
 };

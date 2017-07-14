@@ -1,10 +1,11 @@
 #include <iostream>
 #include "BasePlusCommEmpl.h"
 using std::cout;
+
 BasePlusCommEmpl::BasePlusCommEmpl(
 	const string &first, const string &last,
-	const string &ssn, 
-	double sales,double rate, double salary)
+	const string &ssn, double sales,
+	double rate, double salary)
 	:CommissionEmployee(first, last, ssn, sales, rate)
 {
 	setBaseSalary(salary);
@@ -25,5 +26,5 @@ void BasePlusCommEmpl::print()const
 {
 	cout << "base - salaried ";
 	CommissionEmployee::print();
-	cout<< "\nbase salary: " << getBaseSalary();
+	cout << "; base salary: " << getBaseSalary();
 }
