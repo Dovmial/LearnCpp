@@ -1,0 +1,13 @@
+тип данных          размер         Максимум            
+bool                1              255.0               
+char                1              127.0               
+unsigned char       1              255.0               
+short int           2              32767.0             
+unsigned short int  2              65535.0             
+int                 4              2147483647.0        
+unsigned int        4              4294967295.0        
+long int            4              2147483647.0        
+unsigned long int   4              4294967295.0        
+float               4              2147483647.0        
+double              8              9223372036854775808.0
+long double         8              9223372036854775808.0
