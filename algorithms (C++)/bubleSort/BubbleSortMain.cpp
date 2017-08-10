@@ -20,7 +20,7 @@ int main()
 	
 	for (size_t i = 0; i < Size; i++)
 		vectX.push_back(30 + rand() % 50);
-	cout << "Before sorting: ";
+	cout << "\nBefore sorting: ";
 	display(vectX);
 	bubbleSort(vectX);
 	cout << "After sorting: ";
