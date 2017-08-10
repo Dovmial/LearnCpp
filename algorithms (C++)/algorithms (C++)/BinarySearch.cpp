@@ -55,5 +55,5 @@ void BinarySearch::dispaySubElements(int low, int high)const
 		cout << "   ";
 	for (int i = low; i <= high; i++)
 		cout << data[i]<<" ";
-	cout << endl;
+	cout << endl<<endl;
 }
